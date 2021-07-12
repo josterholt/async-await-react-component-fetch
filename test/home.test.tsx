@@ -9,7 +9,7 @@ describe("App", () => {
         jest.clearAllMocks();
     });
 
-    it("renders without crashing", async () => {
+    it("Renders without crashing", async () => {
         jest.unmock("react");
 
         fetch.doMock();
@@ -25,7 +25,7 @@ describe("App", () => {
         );
     });
 
-    it("doesn't throw on unmount", async () => {
+    it("Doesn't throw on unmount", async () => {
         fetch.doMock();
         fetch.mockResponse(async function () {
             return JSON.stringify(posts);
