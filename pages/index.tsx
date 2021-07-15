@@ -33,10 +33,14 @@ export default function Home() {
 
                 <div className={styles.description}>
                     This is an example of how to use async/await in Next.js.
-                    {articles &&
-                        articles.map((article: IArticle) => {
-                            return <div key={article.id}>{article.title}</div>;
-                        })}
+                    <ul aria-label="articles">
+                        {articles &&
+                            articles.map((article: IArticle) => {
+                                return (
+                                    <li key={article.id}>{article.title}</li>
+                                );
+                            })}
+                    </ul>
                 </div>
             </main>
         </div>
