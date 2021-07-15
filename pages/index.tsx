@@ -6,7 +6,6 @@ export default function Home() {
     const [articles, setArticles] = useState<Array<IArticle> | undefined>(
         undefined
     );
-    const [title, setTitle] = useState<string>("");
 
     // Function passed into useEffect must be synchronous!
     useEffect(() => {
@@ -16,7 +15,6 @@ export default function Home() {
                     "https://jsonplaceholder.typicode.com/posts?_delay=3000"
                 );
 
-                setTitle("Async/Await Example");
                 const data: Array<IArticle> = await response.json();
                 setArticles(data);
             } catch (error) {
@@ -38,14 +36,18 @@ export default function Home() {
             </Head>
 
             <main className={styles.main}>
-                <h1 className={styles.title}>{title}</h1>
+                <h1 className={styles.title}>Async/Await Example</h1>
 
                 <div className={styles.description}>
                     This is an example of how to use async/await in Next.js.
-                    {articles &&
-                        articles.map((article: IArticle) => {
-                            return <div key={article.id}>{article.title}</div>;
-                        })}
+                    <ul aria-label="articles">
+                        {articles &&
+                            articles.map((article: IArticle) => {
+                                return (
+                                    <li key={article.id}>{article.title}</li>
+                                );
+                            })}
+                    </ul>
                 </div>
             </main>
         </div>
