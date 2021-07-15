@@ -23,9 +23,23 @@ describe("useFetch", () => {
 
         const data = result.current.data;
 
-        expect(result.current.response.ok).toBeTruthy();
+        expect(result.current.error).toBeNull();
         expect(data).not.toBeUndefined();
         expect(data).toEqual(mockData);
+    });
+
+    it("can handle an HTTP error response", async () => {
+        const response_error: string = "Test Error";
+        fetch.mockReject(new Error(response_error));
+
+        const { result, waitForNextUpdate } = renderHook(() =>
+            useFetch("https://testdomain.com/pathdoesntexist")
+        );
+
+        await waitForNextUpdate();
+        //await waitFor(() => expect(initialFetchRun).toBe(true)); // Wait for initial fetch, also eliminates need for act()
+
+        expect(result.current.error).toEqual(response_error);
     });
 
     it("can stop fetch during mid-fetch component unmount", async () => {

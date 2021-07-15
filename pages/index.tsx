@@ -4,11 +4,9 @@ import styles from "../styles/Home.module.css";
 import useFetch from "../utils/useFetch";
 
 export default function Home() {
-    const {
-        response,
-        data: articles,
-        error,
-    } = useFetch("https://jsonplaceholder.typicode.com/posts");
+    const { data: articles, error } = useFetch(
+        "https://jsonplaceholder.typicode.com/posts"
+    );
 
     return (
         <div className={styles.container} data-testid="home-container">

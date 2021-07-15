@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 function useFetch(url: string): any {
-    const [response, setResponse] = useState<any>({});
     const [data, setData] = useState<any>(null);
     const [error, setError] = useState<any>(null);
 
@@ -10,17 +9,18 @@ function useFetch(url: string): any {
     useEffect(() => {
         async function fetchPost() {
             try {
-                const tmp_response = await fetch(url, { signal });
-                setResponse(tmp_response);
+                const response = await fetch(url, { signal });
 
-                if (tmp_response.ok) {
-                    const json_obj = await tmp_response.json();
-                    setData(json_obj);
+                if (!response.ok) {
+                    throw new Error(
+                        `HTTP Response ${response.status}: ${response.statusText}`
+                    );
                 }
-            } catch (error) {
-                if (signal.aborted === false) {
-                    setError(error);
-                }
+
+                const json_obj = await response.json();
+                setData(json_obj);
+            } catch (error: any) {
+                setError(error.message);
             }
         }
         fetchPost();
@@ -30,6 +30,6 @@ function useFetch(url: string): any {
         };
     }, [url]);
 
-    return { response, data, error };
+    return { data, error };
 }
 export default useFetch;
