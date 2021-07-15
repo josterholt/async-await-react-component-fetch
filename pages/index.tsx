@@ -6,19 +6,20 @@ export default function Home() {
     const [articles, setArticles] = useState<Array<IArticle> | undefined>(
         undefined
     );
+    const [error, setError] = useState<any>(null);
 
     // Function passed into useEffect must be synchronous!
     useEffect(() => {
         async function fetchPost() {
             try {
                 const response = await fetch(
-                    "https://jsonplaceholder.typicode.com/posts?_delay=3000"
+                    "https://jsonplaceholder.typicode.com/posts"
                 );
 
                 const data: Array<IArticle> = await response.json();
                 setArticles(data);
-            } catch (error) {
-                console.log(error);
+            } catch (error: any) {
+                setError(error.message);
             }
         }
         fetchPost();
@@ -40,6 +41,7 @@ export default function Home() {
 
                 <div className={styles.description}>
                     This is an example of how to use async/await in Next.js.
+                    <div>{error}</div>
                     <ul aria-label="articles">
                         {articles &&
                             articles.map((article: IArticle) => {

@@ -28,6 +28,15 @@ describe("App", () => {
         expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
 
+    it("can handle an HTTP error response", async () => {
+        const response_error: string = "Test Error";
+        fetch.mockReject(new Error(response_error));
+
+        const { findByText } = render(<Home />);
+
+        expect(await findByText(response_error)).toBeInTheDocument();
+    });
+
     it("lists all articles", async () => {
         fetch.mockResponse(async function () {
             return JSON.stringify(posts);
