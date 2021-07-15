@@ -4,16 +4,11 @@ import styles from "../styles/Home.module.css";
 import useFetch from "../utils/useFetch";
 
 export default function Home() {
-    // const [articles, setArticles] = useState<Array<IArticle> | undefined>(
-    //     undefined
-    // );
-    const [title, setTitle] = useState<string>("");
-
     const {
         response,
         data: articles,
         error,
-    } = useFetch("https://jsonplaceholder.typicode.com/posts?_delay=3000");
+    } = useFetch("https://jsonplaceholder.typicode.com/posts");
 
     return (
         <div className={styles.container} data-testid="home-container">
@@ -28,7 +23,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <h1 className={styles.title} data-testid="title-heading">
-                    {title}
+                    Async/Await Example App
                 </h1>
 
                 <div className={styles.description}>
