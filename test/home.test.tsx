@@ -21,11 +21,11 @@ describe("App", () => {
             return JSON.stringify(posts);
         });
 
-        const { getByText } = render(<Home />);
+        const { getByTestId } = render(<Home />);
         await waitFor(() => expect(initialFetchRun).toBe(true)); // Wait for fetch to complete, keep console.error clean
 
         await waitFor(() =>
-            expect(getByText("Async/Await Example")).toBeInTheDocument()
+            expect(getByTestId("title-heading")).toBeInTheDocument()
         );
         expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
