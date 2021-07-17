@@ -8,6 +8,9 @@ export default function Home() {
     );
     const [error, setError] = useState<any>(null);
 
+    const fetchController = new AbortController();
+    const signal = fetchController.signal;
+
     // Function passed into useEffect must be synchronous!
     useEffect(() => {
         async function fetchPost() {
@@ -23,6 +26,10 @@ export default function Home() {
             }
         }
         fetchPost();
+
+        return () => {
+            fetchController.abort();
+        };
     }, []);
 
     return (
