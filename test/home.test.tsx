@@ -9,7 +9,7 @@ import {
 } from "@testing-library/react";
 import Home from "../pages/index";
 import fetch from "jest-fetch-mock";
-import posts from "./mock/posts-001.json";
+import posts from "../test/mock/posts-001.json";
 
 const consoleErrorSpy = jest.spyOn(global.console, "error");
 
