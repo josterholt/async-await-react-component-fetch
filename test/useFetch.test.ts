@@ -4,6 +4,16 @@ import fetch from "jest-fetch-mock";
 import { waitFor } from "@testing-library/dom";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
 
+/**
+ * ASYNC SCENARIOS WITH HOOK AND COMPONENTS:
+ * - RACE CONDITION: fetchPost has several async functions.
+ *     - fetch can complete before clean up, but clean up happens in between
+ *       response.json() and setData()
+ * - Component unmounts before fetch completes, fetchController.abort()
+ *     - Abort will make fetch promise rejects /w error, fetchPost ends
+ * - Component stays mounted, fetch completes, fetchPost runs in full
+ */
+
 describe("useFetch", () => {
     it("can fetch from a URL", async () => {
         const mockData = { sample: "test" };
@@ -37,7 +47,6 @@ describe("useFetch", () => {
         );
 
         await waitForNextUpdate();
-        //await waitFor(() => expect(initialFetchRun).toBe(true)); // Wait for initial fetch, also eliminates need for act()
 
         expect(result.current.error).toEqual(response_error);
     });
@@ -50,7 +59,6 @@ describe("useFetch", () => {
         fetch.mockResponse(async () => {
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    console.log("Mock response");
                     initialFetchRun = true;
                     resolve(JSON.stringify(mockData));
                 }, 1000);
@@ -61,8 +69,7 @@ describe("useFetch", () => {
             useFetch("https://testdomain.com/pathdoesntexist")
         );
 
-        //unmount();
-        cleanup();
+        await waitFor(() => expect(unmount).not.toThrow());
 
         expect(initialFetchRun).toBe(false);
     });
