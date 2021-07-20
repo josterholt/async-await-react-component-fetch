@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useFetch from "../../utils/useFetch";
 import styles from "../../styles/ArticleList.module.css";
 

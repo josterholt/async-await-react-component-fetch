@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 function useFetch(url: string): any {
     const [data, setData] = useState<any>(null);
-    const [error, setError] = useState<any>(null);
+    const [error, setError] = useState<any>("");
 
     useEffect(() => {
         const fetchController = new AbortController();
