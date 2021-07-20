@@ -4,20 +4,22 @@ export default function ArticleList() {
     const [articles, setArticles] = useState<Array<IArticle> | undefined>(
         undefined
     );
-    const [error, setError] = useState<any>(null);
+    const [error, setError] = useState("");
 
     const fetchController = new AbortController();
-    const signal = fetchController.signal;
 
     useEffect(() => {
         async function fetchPost() {
             try {
                 const response = await fetch(
-                    "https://jsonplaceholder.typicode.com/posts"
+                    "https://jsonplaceholder.typicode.com/posts",
+                    { signal: fetchController.signal }
                 );
 
                 const data: Array<IArticle> = await response.json();
-                setArticles(data);
+                if (!fetchController.signal.aborted) {
+                    setArticles(data);
+                }
             } catch (error: any) {
                 setError(error.message);
             }
