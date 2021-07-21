@@ -9,7 +9,7 @@ export default function ArticleList() {
     const fetchController = new AbortController();
 
     useEffect(() => {
-        async function fetchPost() {
+        async function fetchArticles() {
             try {
                 const response = await fetch(
                     "https://jsonplaceholder.typicode.com/posts",
@@ -24,7 +24,7 @@ export default function ArticleList() {
                 setError(error.message);
             }
         }
-        fetchPost();
+        fetchArticles();
 
         return () => {
             fetchController.abort();
