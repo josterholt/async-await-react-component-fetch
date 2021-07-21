@@ -7,7 +7,7 @@ function useFetch(url: string): any {
     useEffect(() => {
         const fetchController = new AbortController();
 
-        async function fetchPost() {
+        async function fetchArticles() {
             try {
                 const response = await fetch(url, {
                     signal: fetchController.signal,
@@ -28,7 +28,7 @@ function useFetch(url: string): any {
                 setError(error.message);
             }
         }
-        fetchPost();
+        fetchArticles();
 
         return () => {
             fetchController.abort();

@@ -33,7 +33,7 @@ describe("useFetch", () => {
 
         const data = result.current.data;
 
-        expect(result.current.error).toBeNull();
+        expect(result.current.error).toEqual("");
         expect(data).not.toBeUndefined();
         expect(data).toEqual(mockData);
     });
